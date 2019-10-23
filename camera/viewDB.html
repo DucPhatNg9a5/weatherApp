@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+<body>
+  <h1>Data Selfie App</h1>
+
+  <p><a href="http://localhost:3000/">Main</a> | <a href="http://localhost:3000/viewDB.html">Database</a></p>
+
+  <script>
+    getData();
+
+    async function getData() {
+      const response = await fetch("/api");
+      const data = await response.json();
+
+      for (item of data) {
+        const root = document.createElement('div');
+        const mood = document.createElement('div');
+        const geo = document.createElement('div');
+        const date = document.createElement('div');
+        const weather = document.createElement('div');
+        const img = document.createElement('img');
+        const br = document.createElement("br");
+
+
+        mood.textContent = `mood: ${item.mood}`;
+        geo.textContent = `latitude: ${item.lat}°, longitude: ${item.lon}°`;
+        const dateString = new Date(item.timestamp).toLocaleString();
+        date.textContent = dateString;
+        img.src = item.image64;
+        weather.textContent = `weather: ${item.weather}`;
+        root.append(mood, geo, date, weather, img, br);
+
+        document.body.append(root)
+      }
+      console.log(data);
+    }
+  </script>
+
+</body>
+</html>
