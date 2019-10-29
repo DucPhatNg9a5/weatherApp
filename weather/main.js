@@ -1,51 +1,51 @@
 if ("geolocation" in navigator) {
+  navigator.geolocation.getCurrentPosition(async position => {
+    let lat, lon, weather, aq;
+    try {
+      lat = position.coords.latitude;
+      lon = position.coords.longitude;
+      document.getElementById("latitude").textContent = lat.toFixed(2);
+      document.getElementById("longitude").textContent = lon.toFixed(2);
 
-navigator.geolocation.getCurrentPosition(async function(position) {
-  let lat, lon, weather, aq;
-  try {
-  const lat = position.coords.latitude;
-  const lon = position.coords.longitude;
-  document.getElementById("latitude").textContent = lat.toFixed(2);
-  document.getElementById("longitude").textContent = lon.toFixed(2);
+      const api_url = `/weather/${lat},${lon}`;
+      const weather_response = await fetch(api_url);
+      const rec_data = await weather_response.json();
 
-  const api_url = `/weather/${lat},${lon}`;
-  const weather_response = await fetch(api_url);
-  const rec_data = await weather_response.json();
+      console.log(rec_data);
 
-  console.log(rec_data);
+      weather = rec_data.weather.currently;
+      aq = rec_data.air_quality.results[0].measurements[0];
 
-  const weather = rec_data.weather.currently;
-  const aq = rec_data.air_quality.results[0].measurements[0];
+      document.getElementById("summary").textContent = weather.summary;
+      document.getElementById("temperature").textContent = weather.temperature;
+      document.getElementById("aq_parameter").textContent = aq.parameter;
+      document.getElementById("aq_value").textContent = aq.value;
+      document.getElementById("aq_unit").textContent = aq.unit;
+      document.getElementById("aq_date").textContent = aq.lastUpdated;
+    } catch (err) {
+      console.log(err);
+    }
+    
+    const out_data = { lat, lon, weather, aq };
+    console.log(out_data);
 
-  document.getElementById("summary").textContent = weather.summary;
-  document.getElementById("temperature").textContent = weather.temperature;
-  document.getElementById("aq_parameter").textContent = aq.parameter;
-  document.getElementById("aq_value").textContent = aq.value;
-  document.getElementById("aq_unit").textContent = aq.unit;
-  document.getElementById("aq_date").textContent = aq.lastUpdated;
-  } catch(err) {
-    console.log(err);
-  }
-  const out_data = {lat , lon, weather, aq};
-
-  const button = document.getElementById("myButton");
-  button.addEventListener("click", async event => {
-    const options = {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(out_data)
-    };
-
-    const response = await fetch("/api", options);
-    const json = await response.json();
-    console.log(json);
+    const button = document.getElementById("myButton");
+    button.addEventListener("click", async event => {
+      const options = {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(out_data)
+      };
+      const response = await fetch("/api", options);
+      const json = await response.json();
+      console.log(json);
+    });
   });
-});
 
 } else {
-console.log("geolocation IS NOT available");
+  console.log("geolocation IS NOT available");
 }
 
 ///////////////////////////////////////////////////////////////////////////////////
@@ -59,7 +59,7 @@ var osmURL = 'http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png';
 var osmAttrib = '&copy; ' + osmLink;
 
 var osmMap = L.tileLayer(osmURL, {
- attribution: osmAttrib
+  attribution: osmAttrib
 }).addTo(mymap);
 
 ///////////////////////////////////////////////////////////////////////////////////
@@ -74,7 +74,7 @@ async function getData() {
     const marker = L.marker([item.lat, item.lon]).addTo(mymap);
 
     let txt =
-`   <p>
+      `   <p>
       Latitude: ${item.lat}&deg;
       <br/>
       Longitude: ${item.lon}&deg;
@@ -93,6 +93,4 @@ async function getData() {
     }
     marker.bindPopup(txt);
   }
-
-
 }
