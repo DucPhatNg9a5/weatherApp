@@ -53,14 +53,15 @@ if ("geolocation" in navigator) {
 ///////////////////////////////////////////////////////////////////////////////////
 
 document.getElementById("mapid").style.height = "220px";
+// const L = require('leaflet');
 
-var mymap = L.map('mapid').setView([0, 0], 1);
+const mymap = L.map('mapid').setView([0, 0], 1);
 
-var osmLink = '<a href="http://openstreetmap.org">OpenStreetMap</a>';
-var osmURL = 'http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png';
-var osmAttrib = '&copy; ' + osmLink;
+let osmLink = '<a href="http://openstreetmap.org">OpenStreetMap</a>';
+let osmURL = 'http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png';
+let osmAttrib = '&copy; ' + osmLink;
 
-var osmMap = L.tileLayer(osmURL, {
+let osmMap = L.tileLayer(osmURL, {
   attribution: osmAttrib
 }).addTo(mymap);
 
