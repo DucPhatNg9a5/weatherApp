@@ -9,7 +9,7 @@
 <body>
   <h1>Weather App</h1>
 
-  <p><a href="http://localhost:3000/">Main</a> | <a href="http://localhost:3000/viewDB.html">Database</a></p>
+  <p><a href="/index.html">Main</a> | <a href="/viewDB.html">Database</a></p>
 
   <script>
     getData();
@@ -25,7 +25,7 @@
         const weather = document.createElement('div');
         const aq = document.createElement('div');
         const br = document.createElement("br");
-      
+
 
         geo.textContent = `latitude: ${item.lat}°, longitude: ${item.lon}°`;
         const dateString = new Date(item.timestamp).toLocaleString();
