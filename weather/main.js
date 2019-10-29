@@ -1,3 +1,5 @@
+//jshint esversion:8
+
 if ("geolocation" in navigator) {
   navigator.geolocation.getCurrentPosition(async position => {
     let lat, lon, weather, aq;
@@ -25,7 +27,7 @@ if ("geolocation" in navigator) {
     } catch (err) {
       console.log(err);
     }
-    
+
     const out_data = { lat, lon, weather, aq };
     console.log(out_data);
 
@@ -69,8 +71,7 @@ async function getData() {
   const response = await fetch('/api');
   const data = await response.json();
 
-  for (item of data) {
-    //console.log(item)
+  for (let item of data) {
     const marker = L.marker([item.lat, item.lon]).addTo(mymap);
 
     let txt =
@@ -83,7 +84,7 @@ async function getData() {
       The weather here is ${item.weather.summary}
       <br/>
       The temperature is ${item.weather.temperature}° C.
-    </p>`
+    </p>`;
     if (item.aq.value < 0) {
       txt += `No air quality reading.`;
     } else {
