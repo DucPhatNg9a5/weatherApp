@@ -1,3 +1,5 @@
+//jshint esversion:8
+
 const express = require("express");
 const Datastore = require("nedb");
 const fetch = require("node-fetch");
@@ -51,4 +53,4 @@ app.get("/weather/:latlon", async (request, response) => {
     air_quality: aq_json
   };
   response.json(data);
-})
+});
